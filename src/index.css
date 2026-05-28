@@ -8,7 +8,7 @@
 
 html {
   background-color: #0C0C0C;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Let Lenis handle smooth scroll instead of CSS */
 }
 
 body {
@@ -38,11 +38,51 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 0 30px rgba(215,226,234,0.15));
+}
+
+/* Cinematic hero heading - giant outline text */
+.hero-heading-cinematic {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)) drop-shadow(0 0 40px rgba(215,226,234,0.3)) drop-shadow(0 0 80px rgba(182, 0, 168, 0.4));
+  position: relative;
+}
+@media (min-width: 768px) {
+  .hero-heading-cinematic {
+    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.7);
+  }
+}
+.hero-heading-cinematic::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #ffffff 0%, #D7E2EA 35%, #aec4d0 65%, #7a9eb5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.18; /* Very faint fill inside the stroke */
+  z-index: -1;
+}
+
+/* Floating animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
 /* Glitch effect */
 .glitch {
   position: relative;
+  /* CRITICAL: overflow must be visible so pseudo-elements aren't clipped */
+  overflow: visible;
 }
 
 .glitch::before,
@@ -58,6 +98,9 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   opacity: 0;
+  /* Match the same transform as the h1 so glitch layers align */
+  transform: scaleX(1.1);
+  transform-origin: center;
 }
 
 .glitch.is-glitching::before {
@@ -126,17 +169,19 @@ body {
   }
 }
 
-/* Grain overlay */
+/* Grain overlay — optimized */
 .grain-layer {
   position: fixed;
-  inset: -200%;
-  width: 400%;
-  height: 400%;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
   pointer-events: none;
   z-index: 9990;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  animation: grain 6s steps(10) infinite;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  animation: grain 8s steps(6) infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 @keyframes grain {
@@ -188,6 +233,7 @@ body {
   transform-style: preserve-3d;
   transition: transform 0.15s ease-out, box-shadow 0.3s ease;
   will-change: transform;
+  contain: layout style paint;
 }
 
 /* Shine on card */

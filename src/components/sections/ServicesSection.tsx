@@ -2,11 +2,36 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const services = [
-  { num: '01', name: '3D Modeling', desc: 'Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.' },
-  { num: '02', name: 'Rendering', desc: 'High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.' },
-  { num: '03', name: 'Motion Design', desc: 'Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.' },
-  { num: '04', name: 'Branding', desc: 'Crafting cohesive visual identities -- from logos to full brand systems -- that communicate a clear and memorable presence.' },
-  { num: '05', name: 'Web Design', desc: 'Designing clean, modern, and conversion-focused websites with attention to layout, typography, and user experience.' },
+  {
+    num: '01',
+    name: 'Full Stack Development',
+    desc: 'End-to-end web application development — from database architecture to polished UIs. Specializing in React, Next.js, Node.js, and modern deployment pipelines.',
+    tag: 'React · Next.js · Node.js',
+  },
+  {
+    num: '02',
+    name: 'Frontend Engineering',
+    desc: 'Building pixel-perfect, performant, and accessible interfaces. Deep expertise in React ecosystem, TypeScript, state management, and animation libraries.',
+    tag: 'TypeScript · Framer Motion · Tailwind',
+  },
+  {
+    num: '03',
+    name: 'REST API & Backend',
+    desc: 'Designing and building robust REST APIs and GraphQL services. Experience with Express, Fastify, authentication systems, and database design.',
+    tag: 'Node.js · PostgreSQL · MongoDB',
+  },
+  {
+    num: '04',
+    name: 'UI/UX Implementation',
+    desc: 'Translating Figma designs into production-ready code with attention to micro-interactions, responsive design, and cross-browser compatibility.',
+    tag: 'Figma → Code · CSS · Animations',
+  },
+  {
+    num: '05',
+    name: 'Performance Optimization',
+    desc: 'Auditing and optimizing web apps for speed, Core Web Vitals, bundle size reduction, lazy loading, and server-side rendering strategies.',
+    tag: 'Lighthouse · SSR/SSG · Web Vitals',
+  },
 ];
 
 export default function ServicesSection() {
@@ -14,7 +39,7 @@ export default function ServicesSection() {
 
   return (
     <section
-      id="price"
+      id="skills"
       style={{ backgroundColor: '#0a0a0a', position: 'relative', zIndex: 50 }}
       className="rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32"
     >
@@ -43,7 +68,7 @@ export default function ServicesSection() {
           lineHeight: 1,
         }}
       >
-        Services
+        What I Do
       </motion.h2>
 
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
@@ -103,13 +128,26 @@ export default function ServicesSection() {
                 }}>
                   {svc.name}
                 </div>
+                {/* Tech tag */}
+                <div style={{
+                  color: '#B600A8',
+                  fontSize: 'clamp(0.65rem, 1.1vw, 0.85rem)',
+                  fontWeight: 600,
+                  letterSpacing: '0.12em',
+                  marginTop: '0.25rem',
+                  fontFamily: 'monospace',
+                  opacity: hovered === i ? 1 : 0.6,
+                  transition: 'opacity 0.3s',
+                }}>
+                  {svc.tag}
+                </div>
                 <div style={{
                   color: 'rgba(215,226,234,0.4)',
                   fontSize: 'clamp(0.8rem, 1.3vw, 1rem)',
-                  marginTop: '0.4rem',
-                  maxWidth: '520px',
+                  marginTop: '0.5rem',
+                  maxWidth: '540px',
                   lineHeight: 1.65,
-                  maxHeight: hovered === i ? '80px' : '0px',
+                  maxHeight: hovered === i ? '100px' : '0px',
                   overflow: 'hidden',
                   opacity: hovered === i ? 1 : 0,
                   transition: 'max-height 0.4s ease, opacity 0.35s',

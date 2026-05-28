@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function AnimatedText({ text, className = '' }: { text: string; className?: string }) {
@@ -8,30 +8,23 @@ export default function AnimatedText({ text, className = '' }: { text: string; c
     offset: ['start 0.8', 'end 0.2']
   });
 
-  const words = text.split(' ');
+  // Split into WORDS instead of characters — massive reduction in motion values
+  const words = useMemo(() => text.split(' '), [text]);
+  const totalWords = words.length;
 
   return (
-    <p ref={container} className={`flex flex-wrap justify-center ${className}`}>
-      {words.map((word: string, i: number) => (
-        <span key={i} className="mr-[0.25em] flex">
-          {word.split('').map((char: string, j: number) => {
-            const step = 1 / (text.length);
-            const charIndex = text.indexOf(word) + j;
-            const start = charIndex * step;
-            const end = start + step;
-            const opacity = useTransform(scrollYProgress, [start, end], [0.2, 1]);
-            
-            return (
-              <span key={j} className="relative">
-                <span className="invisible">{char}</span>
-                <motion.span className="absolute left-0 top-0" style={{ opacity }}>
-                  {char}
-                </motion.span>
-              </span>
-            );
-          })}
-        </span>
-      ))}
+    <p ref={container} className={`flex flex-wrap justify-center gap-x-[0.3em] gap-y-1.5 ${className}`}>
+      {words.map((word, i) => {
+        const start = i / totalWords;
+        const end = Math.min(start + 1 / totalWords, 1);
+        const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1]);
+
+        return (
+          <motion.span key={i} style={{ opacity }}>
+            {word}
+          </motion.span>
+        );
+      })}
     </p>
   );
 }

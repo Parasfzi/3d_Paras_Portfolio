@@ -2,37 +2,143 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useCallback } from 'react';
 import LiveProjectButton from '../ui/LiveProjectButton';
 
+// Dark code-themed project "screenshots" rendered as styled divs
+function CodeMockup({ lang, lines }: { lang: string; lines: string[] }) {
+  return (
+    <div className="w-full h-full rounded-2xl overflow-hidden" style={{ background: '#0d1117', border: '1px solid rgba(255,255,255,0.06)' }}>
+      {/* Editor top bar */}
+      <div className="flex items-center gap-2 px-4 py-3" style={{ background: '#161b22', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="flex gap-1.5">
+          <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+          <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
+          <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+        </div>
+        <span className="ml-2 text-xs font-mono text-white/30">{lang}</span>
+      </div>
+      {/* Code lines */}
+      <div className="p-4 font-mono text-xs leading-relaxed overflow-hidden">
+        {lines.map((line, i) => (
+          <div key={i} className="flex gap-4">
+            <span className="text-white/20 select-none w-4 flex-shrink-0">{i + 1}</span>
+            <span dangerouslySetInnerHTML={{ __html: line }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BrowserMockup({ url, title, accent }: { url: string; title: string; accent: string }) {
+  return (
+    <div className="w-full h-full rounded-2xl overflow-hidden" style={{ background: '#0d1117', border: '1px solid rgba(255,255,255,0.06)' }}>
+      {/* Browser chrome */}
+      <div className="flex items-center gap-2 px-4 py-3" style={{ background: '#161b22', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="flex gap-1.5">
+          <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+          <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
+          <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+        </div>
+        <div className="ml-2 flex-1 bg-white/5 rounded-md px-3 py-1 text-xs font-mono text-white/30">{url}</div>
+      </div>
+      {/* Page content mock */}
+      <div className="p-6 flex flex-col gap-3">
+        <div className="h-8 rounded-lg w-1/2" style={{ background: `${accent}20` }} />
+        <div className="h-4 rounded w-3/4 bg-white/5" />
+        <div className="h-4 rounded w-2/3 bg-white/5" />
+        <div className="mt-2 flex gap-2">
+          <div className="h-8 w-24 rounded-lg" style={{ background: `${accent}30` }} />
+          <div className="h-8 w-20 rounded-lg bg-white/5" />
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {[1, 2, 3].map((n) => (
+            <div key={n} className="h-16 rounded-xl" style={{ background: n === 1 ? `${accent}15` : 'rgba(255,255,255,0.04)' }} />
+          ))}
+        </div>
+        <div className="text-center mt-2 text-xs font-mono text-white/20">{title}</div>
+      </div>
+    </div>
+  );
+}
+
 const projects = [
   {
-    num: '01', cat: 'Client', name: 'Nextlevel Studio',
-    href: 'https://example.com/nextlevel',
-    images: {
-      l1: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85',
-      l2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85',
-      r: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85',
+    num: '01',
+    cat: 'Personal',
+    name: 'Dev Portfolio',
+    href: '#',
+    tech: ['React', 'Vite', 'Framer Motion', 'TypeScript'],
+    desc: 'This very portfolio — built with React, Vite, Framer Motion and TypeScript with glitch animations and 3D parallax effects.',
+    accent: '#B600A8',
+    preview: {
+      left: { type: 'code' as const, lang: 'HeroSection.tsx', lines: [
+        '<span style="color:#ff7b72">export default</span> <span style="color:#d2a8ff">function</span> <span style="color:#79c0ff">Hero</span><span style="color:#ffffff">() {</span>',
+        '  <span style="color:#ff7b72">const</span> <span style="color:#ffffff">[glitch, setGlitch] =</span>',
+        '    <span style="color:#d2a8ff">useState</span><span style="color:#ffffff">(</span><span style="color:#79c0ff">false</span><span style="color:#ffffff">);</span>',
+        '  <span style="color:#8b949e">// Cursor parallax</span>',
+        '  <span style="color:#ff7b72">const</span> <span style="color:#ffffff">x =</span> <span style="color:#d2a8ff">useSpring</span><span style="color:#ffffff">(</span><span style="color:#79c0ff">0</span><span style="color:#ffffff">);</span>',
+        '  <span style="color:#ff7b72">return</span> <span style="color:#ffffff">(</span>',
+        '    <span style="color:#7ee787">&lt;section</span> <span style="color:#79c0ff">id</span><span style="color:#ffffff">=</span><span style="color:#a5d6ff">"hero"</span><span style="color:#7ee787">&gt;</span>',
+      ]},
+      right: { type: 'browser' as const, url: 'paraspawar.dev', title: 'Portfolio Live View' },
     },
   },
   {
-    num: '02', cat: 'Personal', name: 'Aura Brand Identity',
-    href: 'https://example.com/aura',
-    images: {
-      l1: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85',
-      l2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85',
-      r: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85',
+    num: '02',
+    cat: 'Client',
+    name: 'ShopFlow — E-Commerce',
+    href: '#',
+    tech: ['Next.js', 'MongoDB', 'Stripe', 'Tailwind'],
+    desc: 'Full-featured e-commerce platform with cart management, Stripe payments, admin dashboard, and real-time inventory tracking.',
+    accent: '#38BDF8',
+    preview: {
+      left: { type: 'code' as const, lang: 'checkout.ts', lines: [
+        '<span style="color:#ff7b72">const</span> <span style="color:#79c0ff">session</span> <span style="color:#ffffff">=</span> <span style="color:#ff7b72">await</span>',
+        '  <span style="color:#ffffff">stripe.checkout.sessions</span>',
+        '  <span style="color:#79c0ff">.create</span><span style="color:#ffffff">({</span>',
+        '  <span style="color:#79c0ff">mode</span><span style="color:#ffffff">:</span> <span style="color:#a5d6ff">"payment"</span><span style="color:#ffffff">,</span>',
+        '  <span style="color:#79c0ff">line_items</span><span style="color:#ffffff">: cart,</span>',
+        '  <span style="color:#79c0ff">success_url</span><span style="color:#ffffff">: url,</span>',
+        '<span style="color:#ffffff">});</span>',
+      ]},
+      right: { type: 'browser' as const, url: 'shopflow.app', title: 'ShopFlow Dashboard' },
     },
   },
   {
-    num: '03', cat: 'Client', name: 'Solaris Digital',
-    href: 'https://example.com/solaris',
-    images: {
-      l1: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
-      l2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85',
-      r: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85',
+    num: '03',
+    cat: 'Personal',
+    name: 'TaskFlow — SaaS App',
+    href: '#',
+    tech: ['React', 'Node.js', 'PostgreSQL', 'tRPC'],
+    desc: 'Collaborative task management SaaS with real-time updates, workspace roles, Kanban boards, and productivity analytics.',
+    accent: '#68A063',
+    preview: {
+      left: { type: 'code' as const, lang: 'tasks.router.ts', lines: [
+        '<span style="color:#ff7b72">export const</span> <span style="color:#79c0ff">taskRouter</span> <span style="color:#ffffff">=</span>',
+        '  <span style="color:#d2a8ff">router</span><span style="color:#ffffff">({</span>',
+        '  <span style="color:#79c0ff">getAll</span><span style="color:#ffffff">:</span> <span style="color:#d2a8ff">protectedProcedure</span>',
+        '    <span style="color:#79c0ff">.query</span><span style="color:#ffffff">(</span><span style="color:#ff7b72">async</span> <span style="color:#ffffff">({ctx}) =&gt;</span>',
+        '      <span style="color:#ff7b72">await</span> <span style="color:#ffffff">ctx.db.task</span>',
+        '      <span style="color:#79c0ff">.findMany</span><span style="color:#ffffff">({</span>',
+        '      <span style="color:#79c0ff">where</span><span style="color:#ffffff">: {userId},</span>',
+      ]},
+      right: { type: 'browser' as const, url: 'taskflow.app/board', title: 'TaskFlow Kanban' },
     },
   },
 ];
 
-interface ProjectData { num: string; cat: string; name: string; href?: string; images: { l1: string; l2: string; r: string; } }
+interface ProjectData {
+  num: string;
+  cat: string;
+  name: string;
+  href?: string;
+  tech: string[];
+  desc: string;
+  accent: string;
+  preview: {
+    left: { type: 'code'; lang: string; lines: string[] };
+    right: { type: 'browser'; url: string; title: string };
+  };
+}
 
 function ProjectCard({ proj, index, totalCards }: { proj: ProjectData; index: number; totalCards: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,10 +161,10 @@ function ProjectCard({ proj, index, totalCards }: { proj: ProjectData; index: nu
     card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
     const shine = card.querySelector('.card-shine') as HTMLElement;
     if (shine) {
-      shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.12) 0%, rgba(182,0,168,0.06) 40%, transparent 65%)`;
+      shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.12) 0%, ${proj.accent}10 40%, transparent 65%)`;
       shine.style.opacity = '1';
     }
-  }, []);
+  }, [proj.accent]);
 
   const handleMouseLeave = useCallback(() => {
     const card = cardRef.current;
@@ -76,12 +182,11 @@ function ProjectCard({ proj, index, totalCards }: { proj: ProjectData; index: nu
         onMouseLeave={handleMouseLeave}
         className="card-3d"
         style={{
-          borderRadius: '32px', // Refined Apple-like radius
+          borderRadius: '32px',
           border: '1px solid rgba(255,255,255,0.08)',
-          background: 'linear-gradient(135deg, rgba(25,25,25,0.8) 0%, rgba(15,15,15,0.95) 100%)',
-          backdropFilter: 'blur(20px)',
+          background: 'linear-gradient(135deg, rgba(25,25,25,0.95) 0%, rgba(15,15,15,0.99) 100%)',
           padding: 'clamp(1.5rem, 3vw, 2.5rem)',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(138,43,226,0.05)',
+          boxShadow: `0 20px 50px rgba(0,0,0,0.5)`,
           position: 'relative',
           overflow: 'hidden',
           transition: 'transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
@@ -90,28 +195,40 @@ function ProjectCard({ proj, index, totalCards }: { proj: ProjectData; index: nu
         {/* Holographic shine */}
         <div className="card-shine" style={{ opacity: 0, transition: 'opacity 0.4s' }} />
         {/* Top border glow */}
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(182,0,168,0.6), rgba(118,33,176,0.6), transparent)' }} />
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg, transparent, ${proj.accent}80, transparent)` }} />
 
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem', position: 'relative', zIndex: 3 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem', position: 'relative', zIndex: 3 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
             <span style={{ fontSize: 'clamp(2rem, 4vw, 4rem)', fontWeight: 800, lineHeight: 1, background: 'linear-gradient(135deg, #E0E0E0 0%, #8ca8ba 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{proj.num}</span>
             <div>
-              <div style={{ color: '#B600A8', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '0.25rem' }}>{proj.cat}</div>
+              <div style={{ color: proj.accent, fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '0.25rem' }}>{proj.cat}</div>
               <div style={{ color: '#ffffff', fontWeight: 500, textTransform: 'uppercase', fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)', letterSpacing: '0.05em' }}>{proj.name}</div>
+              {/* Tech tags */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                {proj.tech.map((t) => (
+                  <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded-md" style={{ background: `${proj.accent}15`, color: proj.accent, border: `1px solid ${proj.accent}30` }}>
+                    {t}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
           <LiveProjectButton href={proj.href} />
         </div>
 
-        {/* Images */}
-        <div style={{ display: 'flex', gap: '1.25rem', height: 'clamp(260px, 32vw, 460px)', position: 'relative', zIndex: 3 }}>
-          <div style={{ width: '40%', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            <img src={proj.images.l1} style={{ width: '100%', flex: 1, objectFit: 'cover', borderRadius: '16px', minHeight: 0, boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }} alt="" />
-            <img src={proj.images.l2} style={{ width: '100%', flex: 1.4, objectFit: 'cover', borderRadius: '16px', minHeight: 0, boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }} alt="" />
+        {/* Description */}
+        <p style={{ color: 'rgba(215,226,234,0.45)', fontSize: 'clamp(0.8rem, 1.2vw, 0.95rem)', lineHeight: 1.7, marginBottom: '1.5rem', position: 'relative', zIndex: 3, maxWidth: '700px' }}>
+          {proj.desc}
+        </p>
+
+        {/* Mockup Images */}
+        <div style={{ display: 'flex', gap: '1.25rem', height: 'clamp(200px, 28vw, 400px)', position: 'relative', zIndex: 3 }}>
+          <div style={{ width: '40%' }}>
+            <CodeMockup lang={proj.preview.left.lang} lines={proj.preview.left.lines} />
           </div>
           <div style={{ width: '60%' }}>
-            <img src={proj.images.r} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }} alt="" />
+            <BrowserMockup url={proj.preview.right.url} title={proj.preview.right.title} accent={proj.accent} />
           </div>
         </div>
       </div>
@@ -120,8 +237,11 @@ function ProjectCard({ proj, index, totalCards }: { proj: ProjectData; index: nu
 }
 
 export default function ProjectsSection() {
-  const CARD_OFFSET = 24; // px gap between stacked card tops
-  const TOP_START = 100;   // first card sticks at this distance from top
+  // Each card sticks at this offset from the top of the viewport
+  const STICKY_TOP = 80;
+  // How many px of scroll is dedicated to each non-last card
+  // while it's "pinned" before the next one slides over it
+  const SCROLL_PER_CARD = 420;
 
   return (
     <section
@@ -132,10 +252,11 @@ export default function ProjectsSection() {
         position: 'relative',
         zIndex: 10,
         paddingTop: 'clamp(6rem, 12vw, 10rem)',
-        paddingBottom: '14rem',
         paddingLeft: 'clamp(1.5rem, 4vw, 3rem)',
         paddingRight: 'clamp(1.5rem, 4vw, 3rem)',
-        borderTop: '1px solid rgba(255,255,255,0.03)'
+        borderTop: '1px solid rgba(255,255,255,0.03)',
+        // Total height = header + (N-1 scroll regions) + last card natural flow + bottom pad
+        paddingBottom: '6rem',
       }}
     >
       <motion.h2
@@ -144,25 +265,55 @@ export default function ProjectsSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
         className="hero-heading"
-        style={{ fontWeight: 800, textTransform: 'uppercase', textAlign: 'center', fontSize: 'clamp(3rem, 10vw, 8rem)', marginBottom: 'clamp(4rem, 10vw, 8rem)', letterSpacing: '-0.02em', lineHeight: 1 }}
+        style={{
+          fontWeight: 800,
+          textTransform: 'uppercase',
+          textAlign: 'center',
+          fontSize: 'clamp(3rem, 10vw, 8rem)',
+          marginBottom: 'clamp(4rem, 10vw, 8rem)',
+          letterSpacing: '-0.02em',
+          lineHeight: 1
+        }}
       >
         Projects
       </motion.h2>
 
+      {/*
+        Stack logic:
+        - Each card lives in a wrapper div.
+        - Non-last wrappers have a fixed tall height (SCROLL_PER_CARD px)
+          so the user must scroll through that distance before the next card
+          comes along and stacks on top.
+        - The last wrapper has height:auto so it just takes its natural size.
+        - All cards are position:sticky at the same STICKY_TOP so they stack
+          at exactly the same vertical position — no offset jitter.
+        - z-index increases per card so later cards draw on top.
+      */}
       <div style={{ position: 'relative' }}>
-        {projects.map((proj, i) => (
-          <div
-            key={i}
-            style={{
-              position: 'sticky',
-              top: TOP_START + i * CARD_OFFSET,
-              zIndex: i + 1,
-              paddingBottom: i < projects.length - 1 ? '140px' : 0,
-            }}
-          >
-            <ProjectCard proj={proj} index={i} totalCards={projects.length} />
-          </div>
-        ))}
+        {projects.map((proj, i) => {
+          const isLast = i === projects.length - 1;
+          return (
+            <div
+              key={i}
+              style={{
+                // Non-last cards get a tall container for scroll breathing room.
+                // Last card: auto height — it just sits and completes the section.
+                height: isLast ? 'auto' : `${SCROLL_PER_CARD}px`,
+                position: 'relative',
+              }}
+            >
+              <div
+                style={{
+                  position: 'sticky',
+                  top: `${STICKY_TOP}px`,
+                  zIndex: i + 1,
+                }}
+              >
+                <ProjectCard proj={proj} index={i} totalCards={projects.length} />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
