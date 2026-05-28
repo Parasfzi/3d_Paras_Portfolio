@@ -50,7 +50,7 @@ export default function AboutSection({ onOpenContact }: { onOpenContact: () => v
       <style>{floatAnim}</style>
 
       {/* Corner floating tech icons */}
-      <FadeIn delay={0.1} x={-80} y={0} duration={0.9} className="absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%] w-[90px] sm:w-[120px] md:w-[150px]">
+      <FadeIn delay={0.1} x={-80} y={0} duration={0.9} className="hidden sm:block absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%] w-[90px] sm:w-[120px] md:w-[150px]">
         <div style={{ animation: 'float-slow 5s ease-in-out infinite' }}>
           <ReactIcon />
         </div>
@@ -65,7 +65,7 @@ export default function AboutSection({ onOpenContact }: { onOpenContact: () => v
           <TSIcon />
         </div>
       </FadeIn>
-      <FadeIn delay={0.3} x={80} y={0} duration={0.9} className="absolute bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%] w-[100px] sm:w-[130px] md:w-[160px]">
+      <FadeIn delay={0.3} x={80} y={0} duration={0.9} className="hidden sm:block absolute bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%] w-[100px] sm:w-[130px] md:w-[160px]">
         <div style={{ animation: 'float-slow-rev 5.5s ease-in-out infinite 1s' }}>
           <NextIcon />
         </div>
@@ -81,12 +81,12 @@ export default function AboutSection({ onOpenContact }: { onOpenContact: () => v
         <div className="mt-10 sm:mt-14 md:mt-16 flex flex-col items-center">
           <AnimatedText
             text="I'm Paras Pawar, a Full Stack Developer passionate about building fast, beautiful, and scalable web applications. With hands-on experience in React, Next.js, Node.js, and modern UI design, I craft digital experiences that are both powerful under the hood and stunning on the surface. Let's build something incredible together!"
-            className="text-[#D7E2EA] font-medium text-center leading-relaxed max-w-[600px] text-[clamp(1rem,2vw,1.35rem)]"
+            className="text-[#D7E2EA] font-medium text-center leading-relaxed w-full max-w-[600px] text-[clamp(0.9rem,1.8vw,1.35rem)] px-2"
           />
         </div>
 
         {/* Stats row */}
-        <FadeIn delay={0.25} y={30} className="mt-12 sm:mt-14 flex flex-wrap justify-center gap-8 sm:gap-14">
+        <FadeIn delay={0.25} y={30} className="mt-10 sm:mt-12 md:mt-14 flex flex-wrap justify-center gap-6 sm:gap-10 sm:gap-14">
           {[
             { value: '2+', label: 'Years Experience' },
             { value: '20+', label: 'Projects Shipped' },

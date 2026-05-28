@@ -41,7 +41,7 @@ export default function ServicesSection() {
     <section
       id="skills"
       style={{ backgroundColor: '#0a0a0a', position: 'relative', zIndex: 50 }}
-      className="rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32"
+      className="rounded-t-[32px] sm:rounded-t-[50px] md:rounded-t-[60px] px-4 sm:px-8 md:px-10 py-14 sm:py-20 md:py-32"
     >
       {/* top accent line */}
       <div style={{
@@ -85,7 +85,7 @@ export default function ServicesSection() {
             style={{
               position: 'relative',
               borderBottom: '1px solid rgba(215,226,234,0.07)',
-              padding: 'clamp(1.5rem, 3vw, 2.5rem) 1.5rem clamp(1.5rem, 3vw, 2.5rem) 2rem',
+              padding: 'clamp(1rem, 2.5vw, 2.5rem) 0.75rem clamp(1rem, 2.5vw, 2.5rem) 1rem',
               cursor: 'default',
               background: hovered === i ? 'rgba(215,226,234,0.025)' : 'transparent',
               transition: 'background 0.35s',
@@ -100,7 +100,7 @@ export default function ServicesSection() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(1rem, 3vw, 3rem)' }}>
               {/* Large number */}
               <div style={{
-                fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
+                fontSize: 'clamp(1.8rem, 5vw, 5.5rem)',
                 fontWeight: 900,
                 lineHeight: 1,
                 background: hovered === i

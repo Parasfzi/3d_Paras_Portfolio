@@ -222,26 +222,31 @@ function ProjectCard({ proj, index, totalCards }: { proj: ProjectData; index: nu
           {proj.desc}
         </p>
 
-        {/* Mockup Images */}
-        <div style={{ display: 'flex', gap: '1.25rem', height: 'clamp(200px, 28vw, 400px)', position: 'relative', zIndex: 3 }}>
-          <div style={{ width: '40%' }}>
-            <CodeMockup lang={proj.preview.left.lang} lines={proj.preview.left.lines} />
+        {/* Mockup Images — stack on mobile */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative', zIndex: 3 }}
+          className="sm:flex-row"
+        >
+          <div style={{ width: '100%' }} className="sm:w-[40%]">
+            <div style={{ height: 'clamp(160px, 30vw, 280px)' }}>
+              <CodeMockup lang={proj.preview.left.lang} lines={proj.preview.left.lines} />
+            </div>
           </div>
-          <div style={{ width: '60%' }}>
-            <BrowserMockup url={proj.preview.right.url} title={proj.preview.right.title} accent={proj.accent} />
+          <div style={{ width: '100%' }} className="sm:w-[60%]">
+            <div style={{ height: 'clamp(160px, 30vw, 280px)' }}>
+              <BrowserMockup url={proj.preview.right.url} title={proj.preview.right.title} accent={proj.accent} />
+            </div>
           </div>
         </div>
       </div>
     </motion.div>
   );
 }
-
 export default function ProjectsSection() {
   // Each card sticks at this offset from the top of the viewport
-  const STICKY_TOP = 80;
+  const STICKY_TOP = 70;
   // How many px of scroll is dedicated to each non-last card
   // while it's "pinned" before the next one slides over it
-  const SCROLL_PER_CARD = 420;
+  const SCROLL_PER_CARD = 380;
 
   return (
     <section
@@ -269,8 +274,8 @@ export default function ProjectsSection() {
           fontWeight: 800,
           textTransform: 'uppercase',
           textAlign: 'center',
-          fontSize: 'clamp(3rem, 10vw, 8rem)',
-          marginBottom: 'clamp(4rem, 10vw, 8rem)',
+          fontSize: 'clamp(2.5rem, 10vw, 8rem)',
+          marginBottom: 'clamp(3rem, 8vw, 8rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1
         }}

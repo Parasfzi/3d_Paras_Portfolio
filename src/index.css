@@ -18,6 +18,11 @@ body {
   cursor: none;
 }
 
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  .grain-layer { display: none; } /* Save perf on touch */
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 3px;
@@ -76,6 +81,12 @@ body {
 }
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+/* Spin utility for radar icon */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Glitch effect */
