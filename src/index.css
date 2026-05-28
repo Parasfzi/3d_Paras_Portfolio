@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { background-color: #0C0C0C; scroll-behavior: smooth; }
+
+body {
+  background-color: #0C0C0C;
+  font-family: 'Kanit', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #0C0C0C; }
+::-webkit-scrollbar-thumb { background: rgba(215,226,234,0.3); border-radius: 2px; }
+
+/* Hero gradient heading */
+.hero-heading {
+  background: linear-gradient(90deg, #ffffff 0%, #D7E2EA 35%, #aec4d0 65%, #7a9eb5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glitch effect */
+.glitch { position: relative; }
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, #ffffff 0%, #D7E2EA 35%, #aec4d0 65%, #7a9eb5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0;
+}
+
+.glitch.is-glitching::before {
+  opacity: 1;
+  clip-path: polygon(0 15%, 100% 15%, 100% 45%, 0 45%);
+  animation: glitch-top 0.35s steps(2) forwards;
+}
+
+.glitch.is-glitching::after {
+  opacity: 1;
+  clip-path: polygon(0 60%, 100% 60%, 100% 85%, 0 85%);
+  animation: glitch-bot 0.35s steps(2) forwards;
+}
+
+@keyframes glitch-top {
+  0%   { transform: translate(0px, 0px); filter: hue-rotate(0deg); }
+  25%  { transform: translate(-6px, -2px); filter: hue-rotate(90deg); }
+  50%  { transform: translate(6px, 1px); filter: hue-rotate(180deg); }
+  75%  { transform: translate(-3px, 3px); filter: hue-rotate(270deg); }
+  100% { transform: translate(0px, 0px); filter: hue-rotate(360deg); }
+}
+
+@keyframes glitch-bot {
+  0%   { transform: translate(0px, 0px); filter: hue-rotate(0deg); }
+  25%  { transform: translate(6px, 2px); filter: hue-rotate(-90deg); }
+  50%  { transform: translate(-6px, -1px); filter: hue-rotate(-180deg); }
+  75%  { transform: translate(3px, -3px); filter: hue-rotate(-270deg); }
+  100% { transform: translate(0px, 0px); filter: hue-rotate(-360deg); }
+}
+
+/* Grain overlay */
+.grain-layer {
+  position: fixed;
+  inset: -200%;
+  width: 400%;
+  height: 400%;
+  pointer-events: none;
+  z-index: 9990;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  animation: grain 6s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+/* 3D tilt card */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+/* Shine on card */
+.card-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 2;
+}
+
+/* Services hover line */
+.svc-line {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  background: linear-gradient(180deg, #B600A8, #7621B0);
+  transition: width 0.3s ease;
+}
+
+.svc-row:hover .svc-line { width: 3px; }
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: marquee-scroll 25s linear infinite;
+}
+.marquee-track-rev {
+  display: flex;
+  gap: 1.5rem;
+  animation: marquee-scroll-rev 25s linear infinite;
+}
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-scroll-rev {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
