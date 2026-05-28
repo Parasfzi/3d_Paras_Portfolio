@@ -66,8 +66,8 @@ export default function HeroSection({ onOpenContact }: { onOpenContact: () => vo
         />
       </div>
 
-      {/* LAYER 2: Midground Typography */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center pointer-events-none select-none">
+      {/* LAYER 2: Midground Typography (Now Foreground) */}
+      <div className="absolute inset-0 z-25 flex flex-col justify-center items-center pointer-events-none select-none">
 
         {/* "HI, I'M" */}
         <div className="w-full max-w-[1400px] relative px-4 md:px-10">
@@ -86,7 +86,7 @@ export default function HeroSection({ onOpenContact }: { onOpenContact: () => vo
           <FadeIn delay={0.25} y={40} className="w-full flex justify-center">
             <h1
               data-text="PARAS"
-              className={`hero-heading-cinematic glitch font-black uppercase tracking-tighter leading-none whitespace-nowrap text-[28vw] sm:text-[28vw] md:text-[26vw] lg:text-[25vw] xl:text-[23vw] origin-center ${isGlitching ? 'is-glitching' : ''}`}
+              className={`hero-heading-cinematic glitch font-black uppercase tracking-tighter leading-none whitespace-nowrap text-[28vw] sm:text-[28vw] md:text-[26vw] lg:text-[25vw] xl:text-[23vw] origin-center z-50 ${isGlitching ? 'is-glitching' : ''}`}
               style={{ display: 'block' }}
             >
               PARAS
