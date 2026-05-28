@@ -90,7 +90,7 @@ export default function HeroSection({ onOpenContact }: { onOpenContact: () => vo
         <FadeIn delay={0.15} y={40} className="w-full flex justify-center mt-6 sm:mt-4 md:-mt-5">
           <h1
             data-text="Hi, i'm paras"
-            className={`hero-heading glitch font-black uppercase tracking-tight leading-none whitespace-nowrap w-full text-center text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw] ${isGlitching ? 'is-glitching' : ''}`}
+            className={`hero-heading glitch font-black uppercase tracking-tight leading-none whitespace-nowrap w-full text-center text-[8.5vw] sm:text-[9vw] md:text-[9.5vw] lg:text-[10vw] ${isGlitching ? 'is-glitching' : ''}`}
           >
             Hi, i&apos;m paras
           </h1>
